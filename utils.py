@@ -15,3 +15,13 @@ def get_host_from_ip(ip: str) -> str | None:
     except socket.herror:
         return None
     return host[0]
+
+
+def get_ipv6_addr_from_host(host: str) -> str | None:
+    try:
+        host = socket.getaddrinfo(host, 80, family=socket.AF_INET6)
+    except socket.herror:
+        return None
+    except socket.gaierror:
+        return None
+    return host[0][4][0]
