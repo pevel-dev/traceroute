@@ -1,5 +1,4 @@
 import argparse
-from tabulate import tabulate
 
 from traceroute import TracerouteIPv6, TracerouteIPv4
 from utils import get_ip_from_host, get_host_from_ip, get_ipv6_addr_from_host
@@ -28,7 +27,8 @@ def out_traceroute_result(traceroute_provider, args, destination_ip):
     print(f'Traceroute to {args.host} ({destination_ip}). Send {args.n} packets for {args.size} bytes each')
 
     for i, result in enumerate(
-            traceroute_provider.route(destination_ip, args.ttl, args.n, args.timeout, args.size, args.seq, args.request_timeout), 1):
+            traceroute_provider.route(destination_ip, args.ttl, args.n, args.timeout, args.size, args.seq,
+                                      args.request_timeout), 1):
         current_result = [f'{i:2d}:']
         ips = set()
         for r in result:
@@ -46,11 +46,14 @@ def out_traceroute_result(traceroute_provider, args, destination_ip):
             break
 
 
-if __name__ == "__main__":
-    args = parser.parse_args()
-
+def main(args):
     destination_ip, traceroute = build_provider_traceroute(args.host, args.ipv)
     if not destination_ip:
         print("Not found host")
         quit(0)
     out_traceroute_result(traceroute, args, destination_ip)
+
+
+if __name__ == "__main__":
+    args = parser.parse_args()
+    main(args)
