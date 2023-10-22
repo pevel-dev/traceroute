@@ -9,7 +9,7 @@ class Traceroute:
         self._icmp_type = icmp_type
         self._socket_provider = socket_provider
 
-    def traceroute(self, destination, max_hops, n, timeout, size, sequence_number):
+    def traceroute(self, destination, max_hops, n, timeout, size, sequence_number, req_timeout):
         if sequence_number is None:
             seq = 0
         else:
@@ -18,6 +18,7 @@ class Traceroute:
             results = []
             for i in range(n):
                 results.append(self._task(ttl, size, destination, timeout, seq, self._icmp_type))
+                time.sleep(req_timeout)
                 if sequence_number is not None:
                     seq += 1
 
@@ -76,8 +77,8 @@ class TracerouteIPv4:
     def __init__(self):
         self.traceroute = Traceroute(8, self._get_icmp_socket)
 
-    def route(self, destination, max_hops, n, timeout=5, size=1, sequence_number=None):
-        for i in self.traceroute.traceroute(destination, max_hops, n, timeout, size, sequence_number):
+    def route(self, destination, max_hops, n, timeout=5, size=1, sequence_number=None, req_time=0.1):
+        for i in self.traceroute.traceroute(destination, max_hops, n, timeout, size, sequence_number, req_time):
             yield i
 
     @staticmethod
@@ -93,8 +94,8 @@ class TracerouteIPv6:
     def __init__(self):
         self.traceroute = Traceroute(128, self._get_icmp_socket)
 
-    def route(self, destination, max_hops, n, timeout=5, size=1, sequence_number=None):
-        for i in self.traceroute.traceroute(destination, max_hops, n, timeout, size, sequence_number):
+    def route(self, destination, max_hops, n, timeout=5, size=1, sequence_number=None, req_time=0.1):
+        for i in self.traceroute.traceroute(destination, max_hops, n, timeout, size, sequence_number, req_time):
             yield i
 
     @staticmethod

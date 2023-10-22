@@ -3,7 +3,7 @@ Python-task traceroute
 
 #### Использование:
 ```
-python main.py --host {host} --ttl {max_ttl} --timeout {max_timeout} --seq {seq} --size {size} -n {n} --ipv {ipv} 
+python main.py --host {host} --ttl {max_ttl} --timeout {max_timeout} --seq {seq} --size {size} -n {n} --ipv {ipv} --request_timeout {request_timeout} 
 ```
 Параметры:
 * host - хост или ip адресс
@@ -12,6 +12,7 @@ python main.py --host {host} --ttl {max_ttl} --timeout {max_timeout} --seq {seq}
 * seq - кастомный SEQ - по умолчанию он увеличивается с 0 до n запросов
 * n - количество пакетов для одного ttl
 * ipv - версия ip 4 или 6
+* request_timeout - задержка между каждым запросом
 
 
 #### Вывод:
